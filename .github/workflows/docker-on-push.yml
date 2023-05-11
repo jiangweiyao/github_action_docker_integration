@@ -20,6 +20,7 @@ jobs:
       run: |
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD  
     - name: Build the Docker image
+      working-directory: Docker
       run: docker build . --file Dockerfile --tag jiangweiyao/github_action_docker_integration:$TIME_STAMP
     - name: docker push
       run: |
