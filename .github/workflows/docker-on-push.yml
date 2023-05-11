@@ -10,9 +10,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: set release date
-      run: |
-        echo "TIME_STAMP=$(date +%s)" >> ${GITHUB_ENV}
+    - name: Add SHORT_SHA env property with commit short sha
+      run: echo "SHORT_SHA=`echo ${GITHUB_SHA} | cut -c1-8`" >> $GITHUB_ENV
     - name: docker login
       env:
         DOCKER_USER: ${{ secrets.DOCKER_USER }}   
@@ -21,7 +20,7 @@ jobs:
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD  
     - name: Build the Docker image
       working-directory: Docker
-      run: docker build . --file Dockerfile --tag jiangweiyao/github_action_docker_integration:$TIME_STAMP
+      run: docker build . --file Dockerfile --tag jiangweiyao/github_action_docker_integration:${GITHUB_SHA} --tag jiangweiyao/github_action_docker_integration:latest
     - name: docker push
       run: |
         docker push github_action_docker_integration --all-tags
