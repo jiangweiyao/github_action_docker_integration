@@ -21,7 +21,6 @@ jobs:
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD  
     - name: Build the Docker image
       run: |
-        cd Dockerfile
         docker build . --file Dockerfile --tag jiangweiyao/github_action_docker_integration:$RELEASE_VERSION
     - name: docker push
       run: |
