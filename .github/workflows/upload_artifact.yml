@@ -19,7 +19,7 @@ jobs:
         run: |
           cd scripts
           mkdir pq-app-$VERSION
-          cd pq-app-1.0.0
+          cd pq-app-$VERSION
           cp ../*.sh .
           dh_make --indep --createorig -y
           echo "*.sh usr/bin" > debian/install
