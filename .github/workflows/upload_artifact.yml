@@ -15,9 +15,20 @@ jobs:
         run: echo "VERSION=${GITHUB_REF#refs/*/v}" >> $GITHUB_ENV
       - name: Build
         run: echo $VERSION > Release.txt
+      - name: deb build
+        run: |
+          cd scripts
+          mkdir pq-app-$VERSION
+          cd pq-app-1.0.0
+          cp ../*.sh .
+          dh_make --indep --createorig -y
+          echo "*.sh usr/bin" > debian/install
+          debuild -us -uc
       - name: Test
         run: cat Release.txt
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
-          files: Release.txt
+          files: |
+            Release.txt
+            scripts/*.deb
